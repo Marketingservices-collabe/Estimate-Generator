@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Generator</title>
+    <style>
+        /* Existing styles */
+
+        .bill-container {
+            width: 900px !important;
+            max-width: 100% !important;
+            padding: 20px !important;
+            border: 1px solid #ddd !important;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+            background-color: #fff !important;
+            position: relative !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+        }
+
+        .bill-header {
+            text-align: center !important;
+            margin-bottom: 20px !important;
+            position: relative !important;
+        }
+
+        .bill-logo-upload {
+            position: absolute !important;
+            top: 10px !important;
+            right: 10px !important;
+            width: 100px !important;
+            height: 100px !important;
+            border: 1px solid #ddd !important;
+            background: #f4f4f9 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            border-radius: 5px !important;
+        }
+
+        .bill-logo-upload input {
+            display: none !important;
+        }
+
+        .bill-logo-upload img {
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+
+        .bill-form-group {
+            margin-bottom: 15px !important;
+        }
+
+        .bill-form-group label {
+            display: block !important;
+            margin-bottom: 10px !important;
+            color: #333 !important;
+        }
+
+        .bill-form-group input,
+        .bill-form-group textarea {
+            width: 100% !important;
+            padding: 10px !important;
+            box-sizing: border-box !important;
+            border: 1px solid #ddd !important;
+            border-radius: 5px !important;
+            outline: none !important;
+            transition: border-color 0.3s !important;
+            line-height: 1.8 !important;
+            padding: 15px !important;
+        }
+
+        .bill-form-group input:focus,
+        .bill-form-group textarea:focus {
+            border-color: #ee5566 !important;
+        }
+
+        .bill-form-group input[type="number"] {
+            -moz-appearance: textfield !important;
+        }
+
+        .bill-form-group input[type="number"]::-webkit-outer-spin-button,
+        .bill-form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0 !important;
+        }
+
+        .bill-two-column {
+            display: flex !important;
+            justify-content: space-between !important;
+            gap: 10px !important;
+        }
+
+        .bill-two-column .bill-form-group {
+            width: 48% !important;
+        }
+
+        .bill-full-width {
+            width: 100% !important;
+        }
+
+        table {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-bottom: 20px !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd !important;
+        }
+
+        th,
+        td {
+            padding: 10px !important;
+            text-align: left !important;
+            word-wrap: break-word !important;
+        }
+
+        th {
+            background-color: #f8f9fa !important;
+            color: #000 !important;
+            font-size: 13px !important;
+        }
+
+        td input[type="text"],
+        td input[type="number"] {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 5px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 3px !important;
+            outline: none !important;
+            transition: border-color 0.3s !important;
+            line-height: 1.5 !important;
+            padding: 8px !important;
+        }
+
+        td input[type="text"]:focus,
+        td input[type="number"]:focus {
+            border-color: #ee5566 !important;
+        }
+
+        .bill-total {
+            text-align: right !important;
+            margin-top: 20px !important;
+        }
+
+        .bill-total label {
+            margin-right: 10px !important;
+            color: #333 !important;
+        }
+
+        .bill-total input {
+            width: auto !important;
+            text-align: right !important;
+            padding: 5px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 5px !important;
+        }
+
+        .bill-footer {
+            text-align: center !important;
+            margin-top: 20px !important;
+        }
+
+        .bill-button {
+            background-color: #ee5566 !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            border: none !important;
+            border-radius: 5px !important;
+            cursor: pointer !important;
+            transition: background-color 0.3s !important;
+        }
+
+        .bill-button:hover {
+            background-color: #dd4455 !important;
+        }
+
+        .bill-button:focus {
+            outline: none !important;
+        }
+
+        .bill-remove-button {
+            background-color: #dc3545 !important;
+            color: white !important;
+            border: none !important;
+            padding: 5px 10px !important;
+            cursor: pointer !important;
+            border-radius: 5px !important;
+            width: 80px !important;
+        }
+
+        .bill-remove-button:hover {
+            background-color: #c82333 !important;
+        }
+
+        .bill-hidden {
+            display: none !important;
+        }
+
+        .bill-no-print {
+            display: table-cell !important;
+        }
+
+        .powered-by {
+            text-align: left !important;
+            font-size: 12px !important;
+            color: #888 !important;
+            margin-top: 20px !important;
+        }
+
+        .powered-by a {
+            color: #ee5566 !important;
+            text-decoration: none !important;
+        }
+
+        .powered-by a:hover {
+            text-decoration: underline !important;
+        }
+
+        @media print {
+            .bill-no-print {
+                display: none !important;
+            }
+        }
+
+        /* Add new styles for the pop-up */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+    <div class="bill-container" id="billContainer">
+        <div class="bill-header">
+            <h1>Quote</h1>
+            <p><a href="https://zentrades.pro"><br></a></p>
+            <div class="bill-logo-upload" onclick="document.getElementById('logoUpload').click()">
+                <img id="logoPreview" src="" alt="Logo Preview" style="display: none !important;">
+                <span id="uploadText">Upload Logo</span>
+                <input type="file" id="logoUpload" accept="image/*" onchange="previewLogo(event)">
+            </div>
+        </div>
+
+        <div class="bill-form-group">
+            <label for="companyName">Company</label>
+            <input type="text" id="companyName" name="companyName">
+        </div>
+        <div class="bill-two-column">
+            <div class="bill-form-group">
+                <label for="companyAddress">Address</label>
+                <input type="text" id="companyAddress" name="companyAddress">
+            </div>
+            <div class="bill-form-group">
+                <label for="companyCity">City, State, ZIP</label>
+                <input type="text" id="companyCity" name="companyCity">
+            </div>
+        </div>
+        <div class="bill-two-column">
+            <div class="bill-form-group">
+                <label for="companyEmail">Email Address</label>
+                <input type="email" id="companyEmail" name="companyEmail">
+            </div>
+            <div class="bill-form-group">
+                <label for="companyPhone">Phone Number</label>
+                <input type="text" id="companyPhone" name="companyPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            </div>
+        </div>
+        <div class="bill-form-group">
+            <label for="companyWebsite">Company Website</label>
+            <input type="text" id="companyWebsite" name="companyWebsite">
+        </div>
+        <div class="bill-two-column">
+            <div class="bill-form-group">
+                <label for="clientCompanyName">Client</label>
+                <input type="text" id="clientCompanyName" name="clientCompanyName">
+            </div>
+            <div class="bill-form-group">
+                <label for="quoteNumber">Quote Number</label>
+                <input type="number" id="quoteNumber" name="quoteNumber" oninput="this.value = Math.abs(this.value)">
+            </div>
+        </div>
+        <div class="bill-form-group">
+            <label for="quoteSubject">Quote Subject</label>
+            <input type="text" id="quoteSubject" name="quoteSubject">
+        </div>
+        <div class="bill-form-group bill-full-width">
+            <label for="quoteTerms">Quote Terms</label>
+            <input type="text" id="quoteTerms" name="quoteTerms">
+        </div>
+        <div class="bill-form-group bill-full-width">
+            <label for="dateDue">Date Due</label>
+            <input type="date" id="dateDue" name="dateDue">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Service/Product</th>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Unit Cost</th>
+                    <th>Total</th>
+                    <th class="bill-no-print">Remove</th>
+                </tr>
+            </thead>
+            <tbody id="quoteTable">
+                <tr>
+                    <td><input type="text" name="serviceProduct"></td>
+                    <td><input type="text" name="description"></td>
+                    <td><input type="number" name="qty" oninput="updateRowTotal(this); this.value = Math.abs(this.value)"></td>
+                    <td><input type="number" name="unitCost" oninput="updateRowTotal(this); this.value = Math.abs(this.value)"></td>
+                    <td><input type="number" name="rowTotal" readonly></td>
+                    <td class="bill-no-print"><button type="button" class="bill-remove-button" onclick="removeRow(this)">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="bill-form-group">
+            <button type="button" class="bill-button" onclick="addRow()">Add Row</button>
+        </div>
+
+        <div class="bill-total">
+            <label for="subtotal">Subtotal: </label>
+            <input type="number" id="subtotal" name="subtotal" readonly>
+        </div>
+        <div class="bill-total">
+            <label for="discount">Discount (%): </label>
+            <input type="number" id="discount" name="discount" value="0" oninput="calculateTotals(); this.value = Math.abs(this.value)">
+        </div>
+        <div class="bill-total">
+            <label for="taxRate">Tax Rate (%): </label>
+            <input type="number" id="taxRate" name="taxRate" value="0" oninput="calculateTotals(); this.value = Math.abs(this.value)">
+        </div>
+        <div class="bill-total">
+            <label for="taxTotal">Tax Total: </label>
+            <input type="number" id="taxTotal" name="taxTotal" readonly>
+        </div>
+        <div class="bill-total">
+            <label for="quoteTotal">Quote Total: </label>
+            <input type="number" id="quoteTotal" name="quoteTotal" readonly>
+        </div>
+
+        <div class="bill-form-group">
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" rows="4"></textarea>
+        </div>
+
+        <div class="bill-footer">
+            <button type="button" class="bill-button" onclick="downloadPDF()">Download Template</button>
+        </div>
+    </div>
+
+    <script>
+        function previewLogo(event) {
+            const logoPreview = document.getElementById('logoPreview');
+            const uploadText = document.getElementById('uploadText');
+            logoPreview.src = URL.createObjectURL(event.target.files[0]);
+            logoPreview.style.display = 'block';
+            uploadText.style.display = 'none';
+            document.querySelector('.bill-logo-upload').style.background = 'none';
+        }
+
+        function addRow() {
+            const table = document.getElementById('quoteTable');
+            const row = table.insertRow();
+            row.innerHTML = `
+            <td><input type="text" name="serviceProduct"></td>
+            <td><input type="text" name="description"></td>
+            <td><input type="number" name="qty" oninput="updateRowTotal(this); this.value = Math.abs(this.value)"></td>
+            <td><input type="number" name="unitCost" oninput="updateRowTotal(this); this.value = Math.abs(this.value)"></td>
+            <td><input type="number" name="rowTotal" readonly></td>
+            <td class="bill-no-print"><button type="button" class="bill-remove-button" onclick="removeRow(this)">Remove</button></td>
+        `;
+        }
+
+        function updateRowTotal(input) {
+            const row = input.closest('tr');
+            const qty = row.querySelector('input[name="qty"]').value;
+            const unitCost = row.querySelector('input[name="unitCost"]').value;
+            const total = row.querySelector('input[name="rowTotal"]');
+            total.value = (qty * unitCost).toFixed(2);
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const rows = document.querySelectorAll('#quoteTable tr');
+            let subtotal = 0;
+            rows.forEach(row => {
+                const rowTotal = row.querySelector('input[name="rowTotal"]').value;
+                subtotal += parseFloat(rowTotal) || 0;
+            });
+            document.getElementById('subtotal').value = subtotal.toFixed(2);
+
+            const discount = document.getElementById('discount').value;
+            const discountedTotal = subtotal - (subtotal * (discount / 100));
+
+            const taxRate = document.getElementById('taxRate').value;
+            const taxTotal = discountedTotal * (taxRate / 100);
+            document.getElementById('taxTotal').value = taxTotal.toFixed(2);
+
+            const quoteTotal = discountedTotal + taxTotal;
+            document.getElementById('quoteTotal').value = quoteTotal.toFixed(2);
+        }
+
+        function removeRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            calculateTotals();
+        }
+
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const container = document.getElementById('billContainer');
+
+            // Clone the container
+            const clonedContainer = container.cloneNode(true);
+
+            // Remove elements we don't want in the PDF
+            const buttonsToRemove = clonedContainer.querySelectorAll('button');
+            buttonsToRemove.forEach(button => button.remove());
+
+            const removeButtons = clonedContainer.querySelectorAll('.bill-remove-button');
+            removeButtons.forEach(button => button.remove());
+
+            const removeColumns = clonedContainer.querySelectorAll('.bill-no-print');
+            removeColumns.forEach(col => col.remove());
+
+            // Convert input fields to plain text in the cloned container
+            const tableInputs = clonedContainer.querySelectorAll('#quoteTable input[type="text"], #quoteTable input[type="number"]');
+            tableInputs.forEach(input => {
+                const span = document.createElement('span');
+                span.textContent = input.value;
+                span.style.border = input.style.border;
+                span.style.padding = input.style.padding;
+                span.style.width = input.style.width;
+                span.style.boxSizing = input.style.boxSizing;
+                input.parentNode.replaceChild(span, input);
+            });
+
+            const containerDiv = document.createElement('div');
+            containerDiv.style.position = 'absolute';
+            containerDiv.style.left = '-9999px';
+            containerDiv.appendChild(clonedContainer);
+            document.body.appendChild(containerDiv);
+
+            const canvas = await html2canvas(clonedContainer, { scale: 2 });
+
+            // Create PDF with dynamic height
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = 210;
+            const pageHeight = 297;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            const pdfHeight = imgHeight > pageHeight ? imgHeight : pageHeight + 10; // Add padding at the bottom
+            const doc = new jsPDF('p', 'mm', [210, pdfHeight]);
+
+            doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+            // Add clickable link with colored text
+            doc.setTextColor(238, 85, 102); // Set color to #ee5566
+            doc.textWithLink('Powered by Zentrades', 5, pdfHeight - 3, { url: 'https://zentrades.pro' });
+
+            doc.save('quote.pdf');
+
+            document.body.removeChild(containerDiv);
+        }
+    </script>
+
+</body>
+
+</html>
